@@ -1,0 +1,105 @@
+--- a/Linux_for_Tegra/source/public/kernel/nvidia/drivers/media/i2c/imx219_mode_tbls.h	2021-07-26 12:08:47.000000000 -0700
++++ b/Linux_for_Tegra/source/public/kernel/nvidia/drivers/media/i2c/imx219_mode_tbls.h	2021-10-03 19:28:02.604481000 -0700
+@@ -289,7 +289,7 @@
+ 	{IMX219_TABLE_END, 0x00}
+ };
+ 
+-/*
++
+ static imx219_reg imx219_mode_1280x720_120fps[] = {
+ 	// capture settings
+ 	{0x0157, 0x00}, // ANALOG_GAIN_GLOBAL[7:0]
+@@ -331,13 +331,57 @@
+ 	{0x030D, 0x66},
+ 	{IMX219_TABLE_END, 0x00}
+ };
+-*/
++
++static imx219_reg imx219_mode_640x480_180fps[] = {
++	// capture settings
++	{0x0157, 0x00}, // ANALOG_GAIN_GLOBAL[7:0]
++	{0x015A, 0x01}, // COARSE_INTEGRATION_TIME_A[15:8]
++	{0x015B, 0xF5}, // COARSE_INTEGRATION_TIME_A[7:0] supposed to be 4 less than FRM_LENGTH ================================================
++	// format settings
++	{0x0160, 0x01}, // FRM_LENGTH_A[15:8] (frame_length_lines; units are 1 line when BINNING_MODE is 0,1,2 or 2 lines when it's 3)
++	{0x0161, 0xF9}, // FRM_LENGTH_A[7:0]
++	{0x0162, 0x0D}, // LINE_LENGTH_A[15:8] (line_length_pck; units are pixels)
++	{0x0163, 0x78}, // LINE_LENGTH_A[7:0]
++	{0x0164, 0x01}, // X_ADD_STA_A[11:8] (x_addr_start; x address of the top left corner of pixel data)
++	{0x0165, 0x68}, // X_ADD_STA_A[7:0]
++	{0x0166, 0x0B}, // X_ADD_END_A[11:8] (x_addr_end; x address of the bottom right corner of pixel data)
++	{0x0167, 0x67}, // X_ADD_END_A[7:0]
++	{0x0168, 0x01}, // Y_ADD_STA_A[11:8] (y_addr_start; y address of the top left corner of pixel data)
++	{0x0169, 0x10}, // Y_ADD_STA_A[7:0]
++	{0x016A, 0x08}, // Y_ADD_END_A[11:8] (y_addr_end; y address of the bottom right corner of pixel data)
++	{0x016B, 0x8F}, // Y_ADD_END_A[7:0]
++	{0x016C, 0x02}, // x_output_size[11:8] (width of image data output from the sensor module)
++	{0x016D, 0x80}, // x_output_size[7:0]
++	{0x016E, 0x01}, // y_output_size[11:8] (height of image data output from the sensor module)
++	{0x016F, 0xE0}, // y_output_size[7:0]
++	{0x0170, 0x01}, // X_ODD_INC_A[2:0] (x_odd_inc; increment for odd pixels; 1 or 3)
++	{0x0171, 0x01}, // Y_ODD_INC_A[2:0] (y_odd_inc; increment for odd pixels; 1 or 3)
++	{0x0174, 0x02}, // BINNING_MODE_H_A (horizontal binning) (0 = none, 1 = 2x, 2 = 4x, 3 = 2x analog)
++	{0x0175, 0x02}, // BINNING_MODE_V_A (vertical binning) (0 = none, 1 = 2x, 2 = 4x, 3 = 2x analog)
++	{0x018C, 0x0A}, // CSI_DATA_FORMAT_A [15:8] (CSI data format; 0x0A0A = raw 10 bit, 0x0808 = raw 8 bit)
++	{0x018D, 0x0A}, // CSI_DATA_FORMAT_A [7:0]
++	// clocks dividers
++	{0x0301, 0x05}, // VTPXCK_DIV[4:0] (vt_pix_clk_div; video timing pixel clock divider value)
++	{0x0303, 0x01}, // VTSYCK_DIV[1:0] (vt_sys_clk_div; video timing system clock divider value)
++	{0x0304, 0x03}, // PREPLLCK_VT_DIV[7:0] (pre_pll_clk_vt_div or prepllck_vt_div; pre-PLL clock video timing system divider; values 1, 2, 3?; should probably be left alone)
++	{0x0305, 0x03}, // PREPLLCK_OP_DIV[7:0] (pre_pll_clk_op_div or prepllck_vt_div; pre-PLL clock output system divider value; values 1, 2, 3?; should probably be left alone)
++	{0x0306, 0x00}, // PLL_VT_MPY[10:8] (pll_vt_multiplier; PLL video timing system multiplier value)
++	{0x0307, 0x6D}, // PLL_VT_MPY[7:0]
++	{0x0309, 0x0A}, // OPPXCK_DIV[4:0] (op_pix_clk_div; output pixel clock divider value)
++	{0x030B, 0x01}, // OPSYCK_DIV[1:0] (op_sys_clk_div; output system clock divider value)
++	{0x030C, 0x00}, // PLL_OP_MPY[10:8] (pll_op_multiplier; PLL output system multiplier value)
++	{0x030D, 0xDA}, // PLL_OP_MPY[7:0]
++	{IMX219_TABLE_END, 0x00}
++};
++
+ enum {
+ 	IMX219_MODE_3264x2464_21FPS,
+ 	IMX219_MODE_3264x1848_28FPS,
+ 	IMX219_MODE_1920x1080_30FPS,
+ 	IMX219_MODE_1640x1232_30FPS,
+ 	IMX219_MODE_1280x720_60FPS,
++	IMX219_MODE_1280x720_120FPS,
++	IMX219_MODE_640x480_180FPS,
+ 
+ 	IMX219_MODE_COMMON,
+ 	IMX219_START_STREAM,
+@@ -350,6 +394,8 @@
+ 	[IMX219_MODE_1920x1080_30FPS] = imx219_mode_1920x1080_30fps,
+ 	[IMX219_MODE_1640x1232_30FPS] = imx219_mode_1640x1232_30fps,
+ 	[IMX219_MODE_1280x720_60FPS] = imx219_mode_1280x720_60fps,
++	[IMX219_MODE_1280x720_120FPS] = imx219_mode_1280x720_120fps,
++	[IMX219_MODE_640x480_180FPS] = imx219_mode_640x480_180fps,
+ 
+ 	[IMX219_MODE_COMMON]  = imx219_mode_common,
+ 	[IMX219_START_STREAM]  = imx219_start_stream,
+@@ -372,6 +418,16 @@
+ 	60,
+ };
+ 
++static const int imx219_120fps[] = {
++	120,
++};
++
++static const int imx219_180fps[] = {
++	180,
++};
++
++
++
+ /*
+  * WARNING: frmfmt ordering need to match mode definition in
+  * device tree!
+@@ -383,6 +439,8 @@
+ 	{{1920, 1080},	imx219_30fps, 1, 0, IMX219_MODE_1920x1080_30FPS},
+ 	{{1640, 1232},	imx219_30fps, 1, 0, IMX219_MODE_1640x1232_30FPS},
+ 	{{1280, 720},	imx219_60fps, 1, 0, IMX219_MODE_1280x720_60FPS},
++	{{1280, 720},	imx219_120fps, 1, 0, IMX219_MODE_1280x720_120FPS},
++	{{640, 480},	imx219_180fps, 1, 0, IMX219_MODE_640x480_180FPS},
+ };
+ 
+ #endif /* __IMX219_I2C_TABLES__ */

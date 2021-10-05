@@ -1,0 +1,47 @@
+--- a/Linux_for_Tegra/source/public/hardware/nvidia/platform/t210/porg/kernel-dts/porg-platforms/tegra210-camera-rbpcv2-imx219.dtsi	2021-07-26 12:08:25.000000000 -0700
++++ b/Linux_for_Tegra/source/public/hardware/nvidia/platform/t210/porg/kernel-dts/porg-platforms/tegra210-camera-rbpcv2-imx219.dtsi	2021-10-03 17:50:34.782036000 -0700
+@@ -389,6 +389,44 @@
+ 
+ 					embedded_metadata_height = "2";
+ 				};
++				mode6 { /* IMX219_MODE_640x480_180FPS */
++					mclk_khz = "24000";
++					num_lanes = "2";
++					tegra_sinterface = "serial_a";
++					phy_mode = "DPHY";
++					discontinuous_clk = "yes";
++					dpcm_enable = "false";
++					cil_settletime = "0";
++
++					active_w = "640";
++					active_h = "480";
++					pixel_t = "bayer_rggb";
++					readout_orientation = "90";
++					line_length = "3448";
++					inherent_gain = "1";
++					mclk_multiplier = "9.33";
++					pix_clk_hz = "348800000";
++
++					gain_factor = "16";
++					framerate_factor = "1000000";
++					exposure_factor = "1000000";
++					min_gain_val = "16"; /* 1.00x */
++					max_gain_val = "170"; /* 10.66x */
++					step_gain_val = "1";
++					default_gain = "16"; /* 1.00x */
++					min_hdr_ratio = "1";
++					max_hdr_ratio = "1";
++					min_framerate = "2000000"; /* 2.0 fps */
++					max_framerate = "200000000"; /* 200.0 fps */
++					step_framerate = "1";
++					default_framerate = "200000000"; /* 200.0 fps */
++					min_exp_time = "13"; /* us */
++					max_exp_time = "683709"; /* us */
++					step_exp_time = "1";
++					default_exp_time = "2495"; /* us */
++
++					embedded_metadata_height = "2";
++				};
+ 
+ 				ports {
+ 					#address-cells = <1>;
